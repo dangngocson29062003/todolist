@@ -6,14 +6,18 @@ import SectionComponent from '../components/SectionComponent';
 import TextComponent from '../components/TextComponent';
 import TitleComponent from '../components/TitleComponent';
 import {globalStyles} from '../styles/globalStyles';
+import {Element4, Notification, SearchNormal1} from 'iconsax-react-native';
+import {colors} from '../constants/colors';
+import TagComponent from '../components/TagComponent';
+import SpaceComponent from '../components/SpaceComponent';
 
 const HomeScreen = () => {
   return (
     <Container>
       <SectionComponent>
         <RowComponent justify="space-between">
-          <TextComponent text="fafa" />
-          <TextComponent text="fafa" />
+          <Element4 size={24} color={colors.desc} />
+          <Notification size={24} color={colors.desc} />
         </RowComponent>
       </SectionComponent>
       <SectionComponent>
@@ -24,7 +28,8 @@ const HomeScreen = () => {
         <RowComponent
           style={[globalStyles.inputContainer]}
           onPress={() => console.log('Pressed!')}>
-          <TextComponent text="Search" />
+          <TextComponent color="#696B6F" text="Search task" />
+          <SearchNormal1 size={24} color={colors.desc} />
         </RowComponent>
       </SectionComponent>
       <SectionComponent>
@@ -33,7 +38,10 @@ const HomeScreen = () => {
             <View style={{flex: 1}}>
               <TitleComponent text="Task progress" />
               <TextComponent text="30/40 tasks done" />
-              <TextComponent text="tag" />
+              <SpaceComponent height={12} />
+              <RowComponent justify="flex-start">
+                <TagComponent text="March 22" />
+              </RowComponent>
             </View>
             <View>
               <TextComponent text="Circle Chart" />
