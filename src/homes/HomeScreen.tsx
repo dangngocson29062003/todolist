@@ -1,15 +1,16 @@
+import {Element4, Notification, SearchNormal1} from 'iconsax-react-native';
 import {View} from 'react-native';
 import CardComponent from '../components/CardComponent';
+import CircularComponent from '../components/CircularComponent';
 import Container from '../components/Container';
 import RowComponent from '../components/RowComponent';
 import SectionComponent from '../components/SectionComponent';
+import SpaceComponent from '../components/SpaceComponent';
+import TagComponent from '../components/TagComponent';
 import TextComponent from '../components/TextComponent';
 import TitleComponent from '../components/TitleComponent';
-import {globalStyles} from '../styles/globalStyles';
-import {Element4, Notification, SearchNormal1} from 'iconsax-react-native';
 import {colors} from '../constants/colors';
-import TagComponent from '../components/TagComponent';
-import SpaceComponent from '../components/SpaceComponent';
+import {globalStyles} from '../styles/globalStyles';
 
 const HomeScreen = () => {
   return (
@@ -28,7 +29,7 @@ const HomeScreen = () => {
         <RowComponent
           style={[globalStyles.inputContainer]}
           onPress={() => console.log('Pressed!')}>
-          <TextComponent color="#696B6F" text="Search task" />
+          <TextComponent color={colors.gray2} text="Search task" />
           <SearchNormal1 size={24} color={colors.desc} />
         </RowComponent>
       </SectionComponent>
@@ -44,7 +45,7 @@ const HomeScreen = () => {
               </RowComponent>
             </View>
             <View>
-              <TextComponent text="Circle Chart" />
+              <CircularComponent value={20} />
             </View>
           </RowComponent>
         </CardComponent>

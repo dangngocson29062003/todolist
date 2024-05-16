@@ -1,8 +1,8 @@
 export const colors = {
   bgColor: '#171719',
-  cardColor: '#222329',
+  gray: '#222329',
+  gray2: '#696B6F',
   text: '#ffffff',
   desc: '#e6e6e6',
-  blue: '#3618e0',
-  gray: '#363636',
+  blue: '#3618e0b3',
 };
