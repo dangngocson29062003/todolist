@@ -6,12 +6,12 @@ export const globalStyles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.bgColor,
-    padding: 20,
-    paddingTop: Platform.OS === 'ios' ? 42 : 50,
+    paddingTop: Platform.OS === 'ios' ? 6 : 8,
   },
   row: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
   },
   text: {
     fontSize: 14,
@@ -22,15 +22,28 @@ export const globalStyles = StyleSheet.create({
     backgroundColor: colors.gray,
     borderRadius: 12,
     paddingHorizontal: Platform.OS === 'ios' ? 12 : 10,
-    paddingVertical: Platform.OS === 'ios' ? 12 : 10,
+    paddingVertical: 12,
   },
   section: {
     marginBottom: 16,
+    paddingHorizontal: 20,
   },
   tag: {
     paddingHorizontal: 20,
     paddingVertical: Platform.OS === 'ios' ? 6 : 4,
     borderRadius: 100,
     backgroundColor: colors.blue,
+  },
+  card: {
+    borderRadius: 12,
+  },
+  iconContainer: {
+    width: 40,
+    height: 40,
+    borderRadius: 100,
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 16,
   },
 });
