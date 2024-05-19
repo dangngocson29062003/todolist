@@ -1,12 +1,13 @@
-import {ReactNode} from 'react';
-import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
+import {ArrowLeft2} from 'iconsax-react-native';
+import React, {ReactNode} from 'react';
+import {ScrollView, TouchableOpacity, View} from 'react-native';
+import {colors} from '../constants/colors';
+import {fontFamilies} from '../constants/fontFamilies';
 import {globalStyles} from '../styles/globalStyles';
 import RowComponent from './RowComponent';
 import TextComponent from './TextComponent';
-import {fontFamilies} from '../constants/fontFamilies';
-import {colors} from '../constants/colors';
-import {ArrowLeft2} from 'iconsax-react-native';
 import {useNavigation} from '@react-navigation/native';
+
 interface Props {
   title?: string;
   back?: boolean;
@@ -14,15 +15,18 @@ interface Props {
   children: ReactNode;
   isScroll?: boolean;
 }
+
 const Container = (props: Props) => {
   const {title, back, right, children, isScroll} = props;
+
   const navigation: any = useNavigation();
+
   return (
     <View style={[globalStyles.container, {flex: 1}]}>
       {/* Header container */}
 
       <RowComponent
-        style={{
+        styles={{
           paddingHorizontal: 16,
           paddingBottom: 16,
           justifyContent: 'center',
@@ -53,4 +57,5 @@ const Container = (props: Props) => {
     </View>
   );
 };
+
 export default Container;

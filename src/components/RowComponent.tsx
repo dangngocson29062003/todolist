@@ -12,14 +12,14 @@ interface Props {
     | 'space-evenly'
     | undefined;
   onPress?: () => void;
-  style?: StyleProp<ViewStyle>;
+  styles?: StyleProp<ViewStyle>;
 }
 const RowComponent = (props: Props) => {
-  const {children, justify, onPress, style} = props;
+  const {children, justify, onPress, styles} = props;
   const localStyle = [
     globalStyles.row,
     {justifyContent: justify ?? 'center'},
-    style,
+    styles,
   ];
   return onPress ? (
     <TouchableOpacity

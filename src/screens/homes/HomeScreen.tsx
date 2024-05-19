@@ -6,10 +6,12 @@ import {
   SearchNormal1,
 } from 'iconsax-react-native';
 import {TouchableOpacity, View} from 'react-native';
+import AvatarGroup from '../../components/AvatarGroup';
 import CardComponent from '../../components/CardComponent';
 import CardImageComponent from '../../components/CardImageComponent';
 import CircularComponent from '../../components/CircularComponent';
 import Container from '../../components/Container';
+import ProgressBarComponent from '../../components/ProgressBarComponent';
 import RowComponent from '../../components/RowComponent';
 import SectionComponent from '../../components/SectionComponent';
 import SpaceComponent from '../../components/SpaceComponent';
@@ -18,8 +20,6 @@ import TextComponent from '../../components/TextComponent';
 import TitleComponent from '../../components/TitleComponent';
 import {colors} from '../../constants/colors';
 import {globalStyles} from '../../styles/globalStyles';
-import AvatarGroup from '../../components/AvatarGroup';
-import ProgressBarComponent from '../../components/ProgressBarComponent';
 
 const HomeScreen = ({navigation}: any) => {
   return (
@@ -37,7 +37,7 @@ const HomeScreen = ({navigation}: any) => {
         </SectionComponent>
         <SectionComponent>
           <RowComponent
-            style={[globalStyles.inputContainer]}
+            styles={[globalStyles.inputContainer]}
             onPress={() => navigation.navigate('SearchScreen')}>
             <TextComponent color={colors.gray2} text="Search task" />
             <SearchNormal1 size={24} color={colors.desc} />
@@ -61,7 +61,7 @@ const HomeScreen = ({navigation}: any) => {
           </CardComponent>
         </SectionComponent>
         <SectionComponent>
-          <RowComponent style={{alignItems: 'flex-start'}}>
+          <RowComponent styles={{alignItems: 'flex-start'}}>
             <View style={{flex: 1}}>
               <CardImageComponent>
                 <TouchableOpacity
