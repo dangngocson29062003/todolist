@@ -6,13 +6,14 @@ import RowComponent from '../../components/RowComponent';
 import SectionComponent from '../../components/SectionComponent';
 import SpaceComponent from '../../components/SpaceComponent';
 import {TaskModel} from '../../models/TaskModel';
+import DateTimePickerComponent from '../../components/DateTimePickerComponent';
 
 const initValue: TaskModel = {
   title: '',
   description: '',
-  dueDate: '',
-  start: '',
-  end: '',
+  dueDate: new Date(),
+  start: new Date(),
+  end: new Date(),
   uids: [],
   fileUrls: [],
 };
@@ -51,6 +52,32 @@ const AddNewTask = ({navigation}: any) => {
           multible
           numberOfLines={3}
         />
+        <DateTimePickerComponent
+          selected={taskDetail.dueDate}
+          onSelect={val => handleChangeValue('dueDate', val)}
+          placeholder="Choice"
+          type="date"
+          title="Due date"
+        />
+        <RowComponent>
+          <View style={{flex: 1}}>
+            <DateTimePickerComponent
+              selected={taskDetail.start}
+              type="time"
+              onSelect={val => handleChangeValue('start', val)}
+              title="Start"
+            />
+          </View>
+          <SpaceComponent width={10} />
+          <View style={{flex: 1}}>
+            <DateTimePickerComponent
+              selected={taskDetail.end}
+              type="time"
+              onSelect={val => handleChangeValue('end', val)}
+              title="End"
+            />
+          </View>
+        </RowComponent>
         <SectionComponent>
           <Button title="Save" onPress={handleAddNewTask} />
         </SectionComponent>

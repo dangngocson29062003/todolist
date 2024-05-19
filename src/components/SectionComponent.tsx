@@ -1,10 +1,10 @@
 import {ReactNode} from 'react';
-import {StyleProp, View, ViewStyle} from 'react-native';
+import {StyleProp, TextStyle, View} from 'react-native';
 import {globalStyles} from '../styles/globalStyles';
 
 interface Props {
   children: ReactNode;
-  styles?: StyleProp<ViewStyle>;
+  styles?: StyleProp<TextStyle>;
 }
 const SectionComponent = (props: Props) => {
   const {children, styles} = props;
