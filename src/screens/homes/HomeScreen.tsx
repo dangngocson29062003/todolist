@@ -6,25 +6,25 @@ import {
   SearchNormal1,
 } from 'iconsax-react-native';
 import {TouchableOpacity, View} from 'react-native';
-import CardComponent from '../components/CardComponent';
-import CardImageComponent from '../components/CardImageComponent';
-import CircularComponent from '../components/CircularComponent';
-import Container from '../components/Container';
-import RowComponent from '../components/RowComponent';
-import SectionComponent from '../components/SectionComponent';
-import SpaceComponent from '../components/SpaceComponent';
-import TagComponent from '../components/TagComponent';
-import TextComponent from '../components/TextComponent';
-import TitleComponent from '../components/TitleComponent';
-import {colors} from '../constants/colors';
-import {globalStyles} from '../styles/globalStyles';
-import AvatarGroup from '../components/AvatarGroup';
-import ProgressBarComponent from '../components/ProgressBarComponent';
+import CardComponent from '../../components/CardComponent';
+import CardImageComponent from '../../components/CardImageComponent';
+import CircularComponent from '../../components/CircularComponent';
+import Container from '../../components/Container';
+import RowComponent from '../../components/RowComponent';
+import SectionComponent from '../../components/SectionComponent';
+import SpaceComponent from '../../components/SpaceComponent';
+import TagComponent from '../../components/TagComponent';
+import TextComponent from '../../components/TextComponent';
+import TitleComponent from '../../components/TitleComponent';
+import {colors} from '../../constants/colors';
+import {globalStyles} from '../../styles/globalStyles';
+import AvatarGroup from '../../components/AvatarGroup';
+import ProgressBarComponent from '../../components/ProgressBarComponent';
 
-const HomeScreen = () => {
+const HomeScreen = ({navigation}: any) => {
   return (
     <View style={{flex: 1}}>
-      <Container>
+      <Container isScroll>
         <SectionComponent>
           <RowComponent justify="space-between">
             <Element4 size={24} color={colors.desc} />
@@ -38,7 +38,7 @@ const HomeScreen = () => {
         <SectionComponent>
           <RowComponent
             style={[globalStyles.inputContainer]}
-            onPress={() => console.log('Pressed!')}>
+            onPress={() => navigation.navigate('SearchScreen')}>
             <TextComponent color={colors.gray2} text="Search task" />
             <SearchNormal1 size={24} color={colors.desc} />
           </RowComponent>
@@ -131,6 +131,7 @@ const HomeScreen = () => {
           alignItems: 'center',
         }}>
         <TouchableOpacity
+          onPress={() => navigation.navigate('AddNewTask')}
           style={[
             globalStyles.row,
             {
