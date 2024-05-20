@@ -10,11 +10,11 @@ import {colors} from '../constants/colors';
 import {SelectModel} from '../models/SelectModel';
 import {globalStyles} from '../styles/globalStyles';
 import ButtonComponent from './ButtonComponent';
+import InputComponent from './InputComponent';
 import RowComponent from './RowComponent';
+import SpaceComponent from './SpaceComponent';
 import TextComponent from './TextComponent';
 import TitleComponent from './TitleComponent';
-import InputComponent from './InputComponent';
-import SpaceComponent from './SpaceComponent';
 interface Props {
   title?: string;
   items: SelectModel[];

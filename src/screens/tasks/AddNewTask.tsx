@@ -1,5 +1,17 @@
+import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
+import {AttachSquare, CloseCircle, Cloud} from 'iconsax-react-native';
 import React, {useEffect, useState} from 'react';
-import {Button, View} from 'react-native';
+import {
+  PermissionsAndroid,
+  Platform,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import DocumentPicker, {
+  DocumentPickerResponse,
+} from 'react-native-document-picker';
+import ButtonComponent from '../../components/ButtonComponent';
 import Container from '../../components/Container';
 import DateTimePickerComponent from '../../components/DateTimePickerComponent';
 import DropdownPicker from '../../components/DropdownPicker';
@@ -7,10 +19,12 @@ import InputComponent from '../../components/InputComponent';
 import RowComponent from '../../components/RowComponent';
 import SectionComponent from '../../components/SectionComponent';
 import SpaceComponent from '../../components/SpaceComponent';
-import {TaskModel} from '../../models/TaskModel';
+import TextComponent from '../../components/TextComponent';
+import TitleComponent from '../../components/TitleComponent';
+import {colors} from '../../constants/colors';
 import {SelectModel} from '../../models/SelectModel';
-import firestore from '@react-native-firebase/firestore';
-
+import {TaskModel} from '../../models/TaskModel';
+import RNFetchBlob from 'rn-fetch-blob';
 const initValue: TaskModel = {
   title: '',
   description: '',
@@ -24,9 +38,34 @@ const initValue: TaskModel = {
 const AddNewTask = ({navigation}: any) => {
   const [taskDetail, setTaskDetail] = useState<TaskModel>(initValue);
   const [usersSelect, setUsersSelect] = useState<SelectModel[]>([]);
+  const [attachments, setAttachments] = useState<DocumentPickerResponse[]>([]);
+  const [attachmentsUrl, setAttachmentsUrl] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     handleGetAllUsers();
   }, []);
+  useEffect(() => {
+    console.log('a');
+    if (attachments.length === 0) {
+      setIsLoading(false);
+    }
+  }, [attachments]);
+  useEffect(() => {
+    if (Platform.OS === 'android') {
+      PermissionsAndroid.requestMultiple([
+        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+        PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+      ]);
+    }
+  }, []);
+
+  const getFilePath = async (file: DocumentPickerResponse) => {
+    if (Platform.OS === 'ios') {
+      return file.uri;
+    } else {
+      return (await RNFetchBlob.fs.stat(`${file.fileCopyUri}`)).path;
+    }
+  };
   const handleGetAllUsers = async () => {
     await firestore()
       .collection('users')
@@ -56,9 +95,59 @@ const AddNewTask = ({navigation}: any) => {
   };
 
   const handleAddNewTask = async () => {
-    console.log(taskDetail);
+    const data = {
+      ...taskDetail,
+      fileUrls: attachmentsUrl,
+    };
+    await firestore()
+      .collection('tasks')
+      .add(data)
+      .then(() => {
+        console.log('News task added!!');
+        navigation.goBack();
+      })
+      .catch(error => console.log(error));
   };
 
+  const handleDocumentPicker = () => {
+    DocumentPicker.pick({
+      type: [DocumentPicker.types.allFiles],
+      copyTo: 'cachesDirectory',
+    })
+      .then(res => {
+        setIsLoading(true);
+        setAttachments([...attachments, ...res]);
+      })
+      .catch(error => console.log(error));
+  };
+  const handlePushImage = () => {
+    attachments.forEach(item => handleUploadFileToStorage(item));
+  };
+  const handleUploadFileToStorage = async (item: DocumentPickerResponse) => {
+    if (item) {
+      const filename = item.name ?? `file${Date.now()}`;
+      const path = `documents/${filename}`;
+      const uri = await getFilePath(item);
+      const items = [...attachmentsUrl];
+      await storage().ref(path).putFile(uri);
+      await storage()
+        .ref(path)
+        .getDownloadURL()
+        .then(url => {
+          items.push(url);
+          setAttachmentsUrl(items);
+          setIsLoading(false);
+        })
+        .catch(error => console.log(error));
+    }
+  };
+  const handleDeleteAttachment = (index: number) => {
+    const file = [...attachments];
+    if (file) {
+      file.splice(index, 1);
+      setAttachments(file);
+    }
+  };
   return (
     <Container back title="Add new task" isScroll>
       <SectionComponent>
@@ -111,9 +200,43 @@ const AddNewTask = ({navigation}: any) => {
           items={usersSelect}
           multible
         />
-        <SectionComponent>
-          <Button title="Save" onPress={handleAddNewTask} />
-        </SectionComponent>
+        <View>
+          <RowComponent justify="space-between">
+            <RowComponent styles={{flex: 0}} onPress={handleDocumentPicker}>
+              <TitleComponent text="Attachments" />
+              <SpaceComponent width={8} />
+              <AttachSquare size={20} color={colors.white} />
+            </RowComponent>
+
+            {attachments.length > 0 && (
+              <RowComponent onPress={handlePushImage}>
+                <TitleComponent text="Push" color="coral" />
+                <SpaceComponent width={8} />
+                <Cloud size={20} color="coral" />
+              </RowComponent>
+            )}
+          </RowComponent>
+          {attachments.length > 0 &&
+            attachments.map((item, index) => (
+              <RowComponent
+                key={`attachment${index}`}
+                styles={{
+                  paddingVertical: 12,
+                }}
+                onPress={() => handleDeleteAttachment(index)}>
+                <TextComponent text={item.name ?? ''} />
+                <SpaceComponent width={8} />
+                <CloseCircle size={20} color={colors.text} />
+              </RowComponent>
+            ))}
+        </View>
+      </SectionComponent>
+      <SectionComponent>
+        <ButtonComponent
+          text="Save"
+          onPress={handleAddNewTask}
+          isLoading={isLoading}
+        />
       </SectionComponent>
     </Container>
   );

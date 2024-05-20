@@ -13,6 +13,7 @@ const ButtonComponent = (props: Props) => {
   const {text, isLoading, onPress, color} = props;
   return (
     <TouchableOpacity
+      disabled={isLoading}
       onPress={onPress}
       style={{
         justifyContent: 'center',
